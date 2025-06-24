@@ -1,33 +1,4 @@
 from django.db import models
-from django.contrib.auth.hashers import make_password
-
-# ============================================================
-# ======================Model UserType========================
-# ============================================================
-
-class UserType(models.Model):
-    # fields
-    name = models.CharField(max_length=True, max_length=20, null=False)
-
-# ============================================================
-# ========================Model User==========================
-# ============================================================
-
-class User(models.Model):
-    # fields
-    name = models.CharField(unique=True, max_length=100, null=False)
-    login = models.CharField(unique=True, max_length=20, null=False)
-    password = models.CharField(max_length=128, null=False)
-
-    # relationships
-    id_type = models.ForeignKey(UserType, on_delete=models.CASCADE)
-
-    # functions
-    def save(self, *args, **kwargs):
-        if not self.password.startswith('pbkdf2_'):
-            self.password = make_password(self.password)
-        super().save(*args, **kwargs)
-
 
 # ============================================================
 # =====================Model Convidado========================
@@ -53,7 +24,7 @@ class Mensagem(models.Model):
 
 class Tamanho(models.Model):
     # fields
-    name = models.CharField(max_length=1, null=False, unique=True)
+    name = models.CharField(max_length=3, null=False, unique=True)
 
 # ============================================================
 # ======================Model Fraldas=========================
