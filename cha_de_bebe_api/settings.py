@@ -25,12 +25,13 @@ SECRET_KEY = 'django-insecure-ds_&ww9s)+08$9fv51wru(+ng*pkx$z48(6uiuq+^ay%g9q_d&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '168.75.92.136', '10.100.94.250']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,6 +52,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",       # Exemplo para um frontend React local
+    "http://127.0.0.1:8000",       # Se você estiver testando localmente na máquina
+    "http://168.75.92.136:8000", # Se o frontend consumir direto da VM
+    'http://10.100.94.250:8000'
+    # Adicione outros domínios de onde você fará requisições
 ]
 
 ROOT_URLCONF = 'cha_de_bebe_api.urls'
@@ -81,8 +91,6 @@ WSGI_APPLICATION = 'cha_de_bebe_api.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
-# cha-de-bebe-api/seu_projeto/settings.py (ou o caminho correto para o seu settings)
 
 DATABASES = {
     'default': {
