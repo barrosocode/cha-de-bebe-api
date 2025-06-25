@@ -75,10 +75,23 @@ WSGI_APPLICATION = 'cha_de_bebe_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# cha-de-bebe-api/seu_projeto/settings.py (ou o caminho correto para o seu settings)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db',          # Corresponde a MYSQL_DATABASE no docker-compose.yml
+        'USER': 'user',        # Corresponde a MYSQL_USER no docker-compose.yml
+        'PASSWORD': 'senha',   # Corresponde a MYSQL_PASSWORD no docker-compose.yml
+        'HOST': 'db',          # O nome do serviço do Docker Compose para o banco de dados
+        'PORT': '3306',        # A porta padrão do MySQL
     }
 }
 

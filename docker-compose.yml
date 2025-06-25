@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+    web:
+        build:
+            context: ./cha-de-bebe-api
+            dockerfile: Dockerfile
+        container_name: cha-de-bebe-api-web
+        command: /wait-for-it.sh db:3306 -t 45 -- python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - ./cha-de-bebe-api/:/app
+        ports:
+            - "8000:8000"
+        depends_on:
+            - db
+        # env_file:
+        #   - ./cha-de-bebe-api/.env
+
+    db:
+        image: mysql:8.0
+        container_name: cha-de-bebe-mysql-db
+        environment:
+            MYSQL_ROOT_PASSWORD: senharoot
+            MYSQL_DATABASE: db
+            MYSQL_USER: user
+            MYSQL_PASSWORD: senha
+        volumes:
+            - db_data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        # Adicione esta linha para garantir que o MySQL continue rodando
+        command: --default-authentication-plugin=mysql_native_password
+        healthcheck: # Adicione um healthcheck para o Docker Compose saber quando o DB está pronto
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-psenharoot"]
+            interval: 5s
+            timeout: 10s
+            retries: 5
+            start_period: 30s # Dê um tempo para o MySQL inicializar na primeira vez
+
+volumes:
+    db_data:
